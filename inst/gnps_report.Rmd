@@ -1,0 +1,73 @@
+---
+title: "GNPS Upload Report"
+params:
+  path: null
+output:
+  html_document: 
+    standalone: true
+---
+
+
+```{r include=FALSE}
+mzPointer <- mzPlotter::getMzPointer(path = params$path)
+mzXMLHeader <- mzPlotter::readMzSpec(mzPointer)
+```
+
+
+## Summary Tables{.tabset .tabset-fade .tabset-pills}
+
+### Instrument Information
+```{r echo=FALSE}
+knitr::kable(as.data.frame(mzR::instrumentInfo(mzPointer)[1:5]))
+```
+
+### Run information
+```{r echo=FALSE}
+temp <- unique(mzXMLHeader$msLevel)
+
+
+lows <- round(sapply(split(mzXMLHeader$lowMZ, mzXMLHeader$msLevel), min), 1)
+highs <- round(sapply(split(mzXMLHeader$highMZ, mzXMLHeader$msLevel), max), 1)
+
+spectra <- lengths(split(mzXMLHeader$msLevel, mzXMLHeader$msLevel))
+
+
+a <- t(rbind(`MS level` = temp,
+             `low mass` = lows,
+             `high mass` = highs,
+             `number of spectra` = spectra))
+
+knitr::kable(a)
+```
+
+
+___
+
+
+## Summary Plots {.tabset .tabset-fade .tabset-pills}
+
+### MS^1^ Summary
+
+```{r echo=FALSE, fig.height=6, fig.width=9, message=FALSE, warning=FALSE}
+mzPlotter::figure1(mzPointer)
+```
+
+### MS^2^ Summary
+```{r echo=FALSE, fig.height=6, fig.width=9, message=FALSE, warning=FALSE}
+mzPlotter::figure2(mzPointer)
+```
+
+
+### MS^2^ Intensity Histogram
+```{r echo=FALSE, fig.height=6, fig.width=9, message=FALSE, warning=FALSE}
+plot(density(mzXMLHeader$basePeakIntensity/mzXMLHeader$totIonCurrent),
+     xlab = "Percent of total ion current contributed by base peak",
+     ylab = "Density",
+     main = "Base peak intensity vs total ion intensity for all MS2 events" )
+
+```
+
+### MS^2^ Intensity Evenness
+```{r echo=FALSE, fig.height=6, fig.width=9, message=FALSE, warning=FALSE}
+mzPlotter::figure3(mzPointer)
+```
