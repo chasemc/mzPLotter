@@ -2,7 +2,7 @@
 % Please edit documentation in R/figure1.R
 \name{figure1}
 \alias{figure1}
-\title{ffigure 1}
+\title{figure 1}
 \usage{
 figure1(mzPointer)
 }
@@ -13,5 +13,5 @@ figure1(mzPointer)
 plotly plot
 }
 \description{
-ffigure 1
+figure 1
 }
