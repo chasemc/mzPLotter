@@ -5,12 +5,12 @@
 #' @return plotly plot
 #' @export
 #'
-figure2 <- function(mzPointer) {
-
+figure2 <- function(mzPointer,
+                    pol) {
 
   mzXMLHeader <- mzPlotter::readMzSpec(mzPointer)
   mzXMLHeader <- mzXMLHeader[mzXMLHeader$msLevel == 2, ]
-  mzXMLHeader <- mzXMLHeader[mzXMLHeader$polarity == 1, ]
+  mzXMLHeader <- mzXMLHeader[mzXMLHeader$polarity == pol, ]
 
 
   maxTic <- max(getTic(mzHeader = mzXMLHeader))
@@ -23,24 +23,33 @@ figure2 <- function(mzPointer) {
                                            2)
   sd_2 <- crosstalk::SharedData$new(mzXMLHeader, key = ~acquisitionNum, group = "mzXMLHeader_subset")
 
-
-
-
-
-
   plotly::subplot(
     nrows = 2,
-    #heights = c(0.2, 0.8),
-    #widths = c(0.8, 0.2),
-    shareX = F, shareY = F, titleX = T, titleY = T,
-
+    shareX = F,
+    shareY = F,
+    titleX = T,
+    titleY = T,
+    margin = 0.08,
     plotly::highlight(plotly::ggplotly(ticBpcPlot(sd_2,
                                                   relInt,
                                                   maxTic,
-                                                  maxBpc)), on = "plotly_selected",color = "red"),
-    plotly::highlight(plotly::ggplotly(precEvalPlot(sd_2)), on = "plotly_selected", color = "red"),
-    plotly::highlight(plotly::ggplotly(rtVsPrecMzPlot(sd_2)), on = "plotly_selected", color = "red")
+                                                  maxBpc)),
+                      on = "plotly_selected",
+                      color = "red"),
+    plotly::subplot(
+      nrows = 1,
+      shareX = F,
+      shareY = F,
+      titleX = T,
+      titleY = T,
+      margin = 0.08,
 
-  )
+      plotly::highlight(plotly::ggplotly(precEvalPlot(sd_2)),
+                        on = "plotly_selected",
+                        color = "red"),
+      plotly::highlight(plotly::ggplotly(rtVsPrecMzPlot(sd_2)),
+                        on = "plotly_selected",
+                        color = "red")
+    ))
 
 }
