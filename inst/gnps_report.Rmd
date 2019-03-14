@@ -23,7 +23,7 @@ knitr::kable(as.data.frame(mzR::instrumentInfo(mzPointer)[1:5]))
 
 ### Run information
 ```{r echo=FALSE}
-temp <- unique(mzXMLHeader$msLevel)
+msLevels <- unique(mzXMLHeader$msLevel)
 
 
 lows <- round(sapply(split(mzXMLHeader$lowMZ, mzXMLHeader$msLevel), min), 1)
@@ -32,7 +32,7 @@ highs <- round(sapply(split(mzXMLHeader$highMZ, mzXMLHeader$msLevel), max), 1)
 spectra <- lengths(split(mzXMLHeader$msLevel, mzXMLHeader$msLevel))
 
 
-a <- t(rbind(`MS level` = temp,
+a <- t(rbind(`MS level` = msLevels,
              `low mass` = lows,
              `high mass` = highs,
              `number of spectra` = spectra))
@@ -54,29 +54,35 @@ mzPlotter::figure1(mzPointer)
 
 ### MS^2^ Summary
 ```{r echo=FALSE, fig.height=6, fig.width=9, message=FALSE, warning=FALSE}
-mzPlotter::figure2(mzPointer)
+if (2 %in% msLevels) {
+  mzPlotter::figure2(mzPointer)
+} else {
+  print("Please double-check that your sample has MS2 spectra.") 
+}
 ```
 
 
 ### MS^2^ Intensity Histogram
 ```{r echo=FALSE, fig.height=6, fig.width=9, message=FALSE, warning=FALSE}
 
-if (any(mzXMLHeader$msLevel == 2)) {
- mzXMLHeader <- mzXMLHeader[mzXMLHeader$msLevel == 2, ]
-
-plot(
-  density(mzXMLHeader$basePeakIntensity/mzXMLHeader$totIonCurrent, 
-          na.rm = TRUE),
-  xlab = "Percent of total ion current contributed by base peak",
-  ylab = "Density",
-  main = "Base peak intensity vs total ion intensity for all MS2 events" )
-
+if (2 %in% msLevels) {
+  mzXMLHeader <- mzXMLHeader[mzXMLHeader$msLevel == 2, ]
+  plot(
+    density(mzXMLHeader$basePeakIntensity/mzXMLHeader$totIonCurrent, 
+            na.rm = TRUE),
+    xlab = "Percent of total ion current contributed by base peak",
+    ylab = "Density",
+    main = "Base peak intensity vs total ion intensity for all MS2 events" )
 } else {
-  
+  print("Please double-check that your sample has MS2 spectra.") 
 }
 ```
 
 ### MS^2^ Intensity Evenness
 ```{r echo=FALSE, fig.height=6, fig.width=9, message=FALSE, warning=FALSE}
-mzPlotter::figure3(mzPointer)
+if (2 %in% msLevels) {
+  mzPlotter::figure3(mzPointer)
+} else {
+  print("Please double-check that your sample has MS2 spectra.") 
+}
 ```

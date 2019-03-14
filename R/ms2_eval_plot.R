@@ -7,7 +7,7 @@
 #'
 ms2EvalPlot <- function(input){
   ggplot2::ggplot(input) +
-    ggplot2::geom_point(ggplot2::aes_(x = ~retentionTime / 60, # convert to minutes
+    ggplot2::geom_point(ggplot2::aes_(x = ~retentionTime, # convert to minutes
                                      y = ~peaksCount, alpha = ~basePeakIntensity,
                                      size = ~precursorMZ)) +
     ggplot2::scale_alpha(range = c(0.1, 1),

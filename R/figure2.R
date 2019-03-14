@@ -19,7 +19,8 @@ figure2 <- function(mzPointer) {
                                               maxBpc = maxBpc)
   mzXMLHeader$relInt <- relInt
 
-
+  mzXMLHeader$retentionTime <- base::round(mzXMLHeader$retentionTime / 60,
+                                           2)
   sd_2 <- crosstalk::SharedData$new(mzXMLHeader, key = ~acquisitionNum, group = "mzXMLHeader_subset")
 
 

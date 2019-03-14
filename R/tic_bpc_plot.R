@@ -12,12 +12,13 @@ ticBpcPlot <-  function(input,
                         relInt,
                         mtic,
                         mbpi){
+
   ggplot2::ggplot(input) +
-    ggplot2::geom_line(ggplot2::aes_(x = ~retentionTime / 60, # convert to minutes
+    ggplot2::geom_line(ggplot2::aes_(x = ~retentionTime, # convert to minutes
                            y = ~totIonCurrent,
                            colour = "TIC")) +
-    ggplot2::geom_line(ggplot2::aes_(x = ~retentionTime / 60, # convert to minutes
-                           y = ~basePeakIntensity * (mtic / mbpi),
+    ggplot2::geom_line(ggplot2::aes_(x = ~retentionTime, # convert to minutes
+                           y = ~round(basePeakIntensity * (mtic / mbpi), 2),
                            colour = "BPC")) +
     ggplot2::scale_y_continuous(name = "TIC (As Positive Spectrum)",
                                 sec.axis = ggplot2::sec_axis(~.*-(relInt), name = "BPC (As Negative Spectrum)")) +
