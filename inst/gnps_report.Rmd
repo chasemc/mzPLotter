@@ -60,11 +60,20 @@ mzPlotter::figure2(mzPointer)
 
 ### MS^2^ Intensity Histogram
 ```{r echo=FALSE, fig.height=6, fig.width=9, message=FALSE, warning=FALSE}
-plot(density(mzXMLHeader$basePeakIntensity/mzXMLHeader$totIonCurrent),
-     xlab = "Percent of total ion current contributed by base peak",
-     ylab = "Density",
-     main = "Base peak intensity vs total ion intensity for all MS2 events" )
 
+if (any(mzXMLHeader$msLevel == 2)) {
+ mzXMLHeader <- mzXMLHeader[mzXMLHeader$msLevel == 2, ]
+
+plot(
+  density(mzXMLHeader$basePeakIntensity/mzXMLHeader$totIonCurrent, 
+          na.rm = TRUE),
+  xlab = "Percent of total ion current contributed by base peak",
+  ylab = "Density",
+  main = "Base peak intensity vs total ion intensity for all MS2 events" )
+
+} else {
+  
+}
 ```
 
 ### MS^2^ Intensity Evenness

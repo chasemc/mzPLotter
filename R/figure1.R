@@ -19,7 +19,9 @@ figure1 <- function(mzPointer){
                                               maxBpc = maxBpc)
   mzXMLHeader$relInt <- relInt
 
-  sd_2 <- crosstalk::SharedData$new(mzXMLHeader, key = ~acquisitionNum, group = "mzXMLHeader_subset")
+  sd_2 <- crosstalk::SharedData$new(mzXMLHeader,
+                                    key = ~acquisitionNum,
+                                    group = "mzXMLHeader_subset")
 
   plotly::subplot(
     nrows = 2,
@@ -29,10 +31,15 @@ figure1 <- function(mzPointer){
                                                   relInt,
                                                   maxTic,
                                                   maxBpc)), on = "plotly_selected",color = "red"),
-    plotly::highlight(plotly::ggplotly(precEvalPlot(sd_2)), on = "plotly_selected", color = "red"),
-    plotly::highlight(plotly::ggplotly(rtVsPrecMzPlot(sd_2)), on = "plotly_selected", color = "red")
+    plotly::highlight(plotly::ggplotly(rtVsBaseMzPlot(sd_2)), on = "plotly_selected", color = "red"),
+    plotly::highlight(plotly::ggplotly(ms1PeaksVsTimePlot(sd_2)), on = "plotly_selected", color = "red")
 
-  )
+  ) %>%
+    plotly::layout(title = "",
+           xaxis = list(domain=list(x=c(0,0.5),y=c(0,0.5))),
+           scene = list(domain=list(x=c(0.5,1),y=c(0,0.5))),
+           xaxis2 = list(domain=list(x=c(0.5,1),y=c(0.5,1))),
+           showlegend=FALSE,showlegend2=FALSE)
 
 }
 
