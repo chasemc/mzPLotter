@@ -15,7 +15,6 @@ Imports:
     rmarkdown,
     plotly,
     crosstalk,
-    plumber,
     ggplot2,
     magrittr
 RoxygenNote: 6.1.1
