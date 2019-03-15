@@ -4,7 +4,7 @@
 \alias{figure1}
 \title{figure 1}
 \usage{
-figure1(mzPointer)
+figure1(mzPointer, pol)
 }
 \arguments{
 \item{mzPointer}{mzR object}
