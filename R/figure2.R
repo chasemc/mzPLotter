@@ -1,6 +1,7 @@
 #' figure2
 #'
 #' @param mzPointer mzR object
+#' @param pol polarity
 #'
 #' @return plotly plot
 #' @export

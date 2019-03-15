@@ -8,6 +8,8 @@ figure2(mzPointer, pol)
 }
 \arguments{
 \item{mzPointer}{mzR object}
+
+\item{pol}{polarity}
 }
 \value{
 plotly plot

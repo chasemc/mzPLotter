@@ -43,28 +43,18 @@ if (class(a) == "character") {
     expect_known_hash(as.character(p), "ef0e30e65c")
   })
 
-
+suppressWarnings(
   p <- mzPlotter::rtVsPrecMzPlot(mzHeader)
-
+)
   test_that("multiplication works", {
     #need more test
     expect_identical(class(p), c("gg", "ggplot"))
-    expect_known_hash(as.character(p), "e45ea2de19")
+    expect_known_hash(as.character(p), "f3af38bae1")
   })
 
-
-  p <- mzPlotter::precEvalPlot(mzHeader)
-
-  test_that("multiplication works", {
-    #need more test
-    expect_identical(class(p), c("gg", "ggplot"))
-    expect_known_hash(as.character(p), "5b56117412")
-  })
-
-
-
-  p <- mzPlotter::figure1(mzPointer)
-
+  suppressWarnings(
+  p <- mzPlotter::figure1(mzPointer, pol = 1)
+)
   test_that("multiplication works", {
     #need more test
     expect_identical(class(p), c("plotly", "htmlwidget"))
@@ -73,22 +63,14 @@ if (class(a) == "character") {
 
 
 
-
-  p <- mzPlotter::figure2(mzPointer)
-
+  suppressWarnings(
+  p <- mzPlotter::figure2(mzPointer, pol = 1)
+)
   test_that("multiplication works", {
     #need more test
     expect_identical(class(p), c("plotly", "htmlwidget"))
   })
 
-
-
-  p <- mzPlotter::figure3(mzPointer)
-
-  test_that("multiplication works", {
-    #need more test
-    expect_identical(class(p), c("plotly", "htmlwidget"))
-  })
 
   p <- mzPlotter::baseVtotal_plot(mzHeader)
 

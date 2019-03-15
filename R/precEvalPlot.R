@@ -7,11 +7,6 @@
 #'
 precEvalMs1Plot <- function(input){
 
-  negexp_trans <- function(){
-    trans_new('negexp', function(x) exp(-x), function(x) -log(x))
-  }
-
-
   ggplot2::ggplot(input) +
     ggplot2::geom_point(ggplot2::aes_(x = ~retentionTime,
                                       y = ~peaksCount,
@@ -31,11 +26,6 @@ precEvalMs1Plot <- function(input){
 #' @export
 #'
 precEvalMs2Plot <- function(input){
-
-  negexp_trans <- function(){
-    trans_new('negexp', function(x) exp(-x), function(x) -log(x))
-  }
-
 
   ggplot2::ggplot(input) +
     ggplot2::geom_point(ggplot2::aes_(x = ~retentionTime,

@@ -23,16 +23,13 @@ test_that("multiplication works", {
 
 
 
-
-p <- mzPlotter::ticBpcPlot(mzHeader,
-                           a,
-                           max(z1),
-                           max(z2))
-
+suppressWarnings(
+p <- mzPlotter::ticBpcPlot(mzHeader)
+)
 test_that("multiplication works", {
   #need more test
   expect_identical(class(p), c("gg", "ggplot"))
-  expect_known_hash(as.character(p), "2f971e94c2f")
+  expect_known_hash(as.character(p), "f6719f8ec8c")
 
 })
 
