@@ -10,7 +10,9 @@ precEvalMs1Plot <- function(input){
   ggplot2::ggplot(input) +
     ggplot2::geom_point(ggplot2::aes_(x = ~retentionTime,
                                       y = ~peaksCount,
-                                      alpha = ~totIonCurrent)) +
+                                      alpha = ~totIonCurrent,
+                                      label1 = ~retentionTime,
+                                      label2 = ~peaksCount)) +
     ggplot2::scale_alpha(range = c(0.1, 1)) +
     ggplot2::xlab("Precursor m/z") +
     ggplot2::ylab("Number of peaks in MS1 Scan") +
@@ -30,7 +32,9 @@ precEvalMs2Plot <- function(input){
   ggplot2::ggplot(input) +
     ggplot2::geom_point(ggplot2::aes_(x = ~retentionTime,
                                       y = ~peaksCount,
-                                      alpha = ~totIonCurrent)) +
+                                      alpha = ~totIonCurrent,
+                                      label1 = ~retentionTime,
+                                      label2 = ~peaksCount)) +
     ggplot2::scale_alpha(range = c(0.1, 1)) +
     ggplot2::xlab("Precursor m/z") +
     ggplot2::ylab("Number of peaks in MS2 Scan") +
