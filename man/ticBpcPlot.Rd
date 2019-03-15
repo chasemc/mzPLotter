@@ -4,16 +4,10 @@
 \alias{ticBpcPlot}
 \title{TIC and BPC plot}
 \usage{
-ticBpcPlot(input, relInt, mtic, mbpi)
+ticBpcPlot(input)
 }
 \arguments{
 \item{input}{dataframe}
-
-\item{relInt}{relative intensity correction}
-
-\item{mtic}{for scaling y axes}
-
-\item{mbpi}{for scaling y axes}
 }
 \value{
 ggplot

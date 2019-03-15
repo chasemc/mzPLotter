@@ -28,9 +28,7 @@ msLevels <- unique(mzXMLHeader$msLevel)
 
 lows <- round(sapply(split(mzXMLHeader$lowMZ, mzXMLHeader$msLevel), min), 1)
 highs <- round(sapply(split(mzXMLHeader$highMZ, mzXMLHeader$msLevel), max), 1)
-
 spectra <- lengths(split(mzXMLHeader$msLevel, mzXMLHeader$msLevel))
-
 
 a <- t(rbind(`MS level` = msLevels,
              `low mass` = lows,
@@ -41,48 +39,77 @@ knitr::kable(a)
 ```
 
 
-___
+```{r echo=FALSE, results='asis'}
+mzRpolarity <- unique(mzXMLHeader$polarity)
 
+if(all(c(0, 1) %in% mzRpolarity)) {
+  polarity <- c("Positive and Negative")
+} else { 
+  
+  if(0 %in% mzRpolarity) {
+    polarity <- c("Negative")
+  }
+  
+  if(1 %in% mzRpolarity) {
+    polarity <- c("Positive")
+  }
+  
+  if(-1 %in% mzRpolarity) {
+    polarity <- c("Unknown")
+  }
+  
+}
+
+cat("Detected Polarity: ", polarity)
+
+```
+
+___
 
 ## Summary Plots {.tabset .tabset-fade .tabset-pills}
 
 ### MS^1^ Summary
-
+Positive Mode:
 ```{r echo=FALSE, fig.height=6, fig.width=9, message=FALSE, warning=FALSE}
-mzPlotter::figure1(mzPointer)
+if (1 %in% mzRpolarity) {
+  mzPlotter::figure1(mzPointer = mzPointer,
+                     pol = mzRpolarity)
+}
 ```
+
+Negative Mode:
+```{r echo=FALSE, fig.height=6, fig.width=9, message=FALSE, warning=FALSE}
+if (0 %in% mzRpolarity) {
+  mzPlotter::figure1(mzPointer = mzPointer,
+                     pol = mzRpolarity)
+} 
+
+```
+
 
 ### MS^2^ Summary
+
+Positive Mode:
 ```{r echo=FALSE, fig.height=6, fig.width=9, message=FALSE, warning=FALSE}
 if (2 %in% msLevels) {
-  mzPlotter::figure2(mzPointer)
+  if (1 %in% mzRpolarity) {
+    mzPlotter::figure2(mzPointer = mzPointer,
+                       pol = 1)
+  }
 } else {
-  print("Please double-check that your sample has MS2 spectra.") 
+  print("Please double-check that your sample has MS2 spectra.")
 }
 ```
 
-
-### MS^2^ Intensity Histogram
+Negative Mode:
 ```{r echo=FALSE, fig.height=6, fig.width=9, message=FALSE, warning=FALSE}
-
 if (2 %in% msLevels) {
-  mzXMLHeader <- mzXMLHeader[mzXMLHeader$msLevel == 2, ]
-  plot(
-    density(mzXMLHeader$basePeakIntensity/mzXMLHeader$totIonCurrent, 
-            na.rm = TRUE),
-    xlab = "Percent of total ion current contributed by base peak",
-    ylab = "Density",
-    main = "Base peak intensity vs total ion intensity for all MS2 events" )
+  if (0 %in% mzRpolarity) {
+    mzPlotter::figure2(mzPointer = mzPointer,
+                       pol = 0)
+  }
 } else {
-  print("Please double-check that your sample has MS2 spectra.") 
+  print("Please double-check that your sample has MS2 spectra.")
 }
 ```
 
-### MS^2^ Intensity Evenness
-```{r echo=FALSE, fig.height=6, fig.width=9, message=FALSE, warning=FALSE}
-if (2 %in% msLevels) {
-  mzPlotter::figure3(mzPointer)
-} else {
-  print("Please double-check that your sample has MS2 spectra.") 
-}
-```
